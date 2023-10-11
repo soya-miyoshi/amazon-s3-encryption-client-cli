@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Define basic project information here -->
+    <groupId>com.github.soya-miyoshi</groupId>
+    <artifactId>amazon-s3-encryption-client-java-example</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <!-- Add the amazon-s3-encryption-client-java dependency -->
+        <dependency>
+            <groupId>software.amazon.encryption.s3</groupId>
+            <artifactId>amazon-s3-encryption-client-java</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <!-- Other dependencies can be added below this line -->
+    </dependencies>
+</project>

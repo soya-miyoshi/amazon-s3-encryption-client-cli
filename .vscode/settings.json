@@ -1,0 +1,7 @@
+{
+    "[java]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": true,
+        "editor.defaultFormatter": "mwpb.java-prettier-formatter"
+    }
+}

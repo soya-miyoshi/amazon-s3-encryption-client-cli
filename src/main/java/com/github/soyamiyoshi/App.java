@@ -23,24 +23,17 @@ public class App {
     private static PublicKey loadPublicKey()
             throws Exception {
         try {
-            // Read the public key bytes
             byte[] keyBytes = Files
                     .readAllBytes(Paths.get(
                             PUBLIC_KEY_PATH));
-
-            // Convert the public key bytes to a PublicKey object
             X509EncodedKeySpec spec =
                     new X509EncodedKeySpec(
                             keyBytes);
             KeyFactory keyFactory =
                     KeyFactory.getInstance(
-                            "RSA"); // Assuming it's an RSA key
+                            "RSA");
             PublicKey publicKey = keyFactory
                     .generatePublic(spec);
-
-            // Now you can use the publicKey object
-            System.out.println("Public Key: "
-                    + publicKey);
             return publicKey;
         } catch (Exception e) {
             throw e;

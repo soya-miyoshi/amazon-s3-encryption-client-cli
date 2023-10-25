@@ -50,29 +50,6 @@ public class App {
                 .generatePublic(spec);
     }
 
-
-    // TODO: Handle exceptions
-    // private static PublicKey loadPublicKey()
-    // throws Exception {
-    // try {
-    // byte[] keyBytes = Files
-    // .readAllBytes(Paths.get(
-    // PUBLIC_KEY_PATH));
-    // X509EncodedKeySpec spec =
-    // new X509EncodedKeySpec(
-    // keyBytes);
-    // KeyFactory keyFactory =
-    // KeyFactory.getInstance(
-    // "RSA");
-    // PublicKey publicKey = keyFactory
-    // .generatePublic(spec);
-    // return publicKey;
-    // } catch (Exception e) {
-    // throw e;
-    // }
-    // }
-
-
     private static void uploadUsingPublicKeyEncryption(
             String objectKey,
             Path filePath) {

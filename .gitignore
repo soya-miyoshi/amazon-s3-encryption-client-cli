@@ -1,3 +1,4 @@
 target/*
 *.pem
 *.txt
+.env

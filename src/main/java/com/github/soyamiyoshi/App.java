@@ -8,18 +8,17 @@ import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
-import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import software.amazon.encryption.s3.S3EncryptionClient;
+import java.util.concurrent.CompletableFuture;
+import software.amazon.awssdk.core.async.AsyncRequestBody;
+import software.amazon.awssdk.services.s3.S3AsyncClient;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
+import software.amazon.encryption.s3.S3AsyncEncryptionClient;
 import software.amazon.encryption.s3.materials.PartialRsaKeyPair;
 
 public class App {
 
-    private static final String BUCKET_NAME =
-            System.getenv("BUCKET_NAME");
-    private static final String PUBLIC_KEY_PATH =
-            System.getenv("PUBLIC_KEY_PATH");
+    private static final String BUCKET_NAME = System.getenv("BUCKET_NAME");
+    private static final String PUBLIC_KEY_PATH = System.getenv("PUBLIC_KEY_PATH");
 
     private static PublicKey loadPemFormatPublicKey()
             throws Exception {
@@ -28,7 +27,6 @@ public class App {
                         PUBLIC_KEY_PATH)),
                 StandardCharsets.UTF_8);
 
-        // Remove the first and last lines (the PEM header and footer)
         String publicKeyPEM = pemContent
                 .replace(
                         "-----BEGIN PUBLIC KEY-----",
@@ -38,21 +36,20 @@ public class App {
                         "")
                 .replaceAll("\\s", ""); // This will remove newlines and spaces
 
-        byte[] decodedBytes =
-                Base64.getDecoder().decode(
-                        publicKeyPEM);
-        X509EncodedKeySpec spec =
-                new X509EncodedKeySpec(
-                        decodedBytes);
+        byte[] decodedBytes = Base64.getDecoder().decode(
+                publicKeyPEM);
+        X509EncodedKeySpec spec = new X509EncodedKeySpec(
+                decodedBytes);
         KeyFactory keyFactory = KeyFactory
                 .getInstance("RSA");
         return keyFactory
                 .generatePublic(spec);
     }
 
-    private static void uploadUsingPublicKeyEncryption(
+    public static void uploadAsyncUsingPublicKey(
             String objectKey,
             Path filePath) {
+
         PublicKey publicKey = null;
         try {
             publicKey =
@@ -63,23 +60,18 @@ public class App {
             System.exit(1);
         }
 
-        S3Client v3Client =
-                S3EncryptionClient.builder()
-                        .rsaKeyPair(
-                                new PartialRsaKeyPair(
-                                        null,
-                                        publicKey))
-                        .build();
+        S3AsyncClient v3AsyncClient = S3AsyncEncryptionClient.builder()
+                .rsaKeyPair(new PartialRsaKeyPair(null, publicKey))
+                .build();
 
-        PutObjectRequest putObjectRequest =
-                PutObjectRequest.builder()
+        CompletableFuture<PutObjectResponse> futurePut =
+                v3AsyncClient.putObject(builder -> builder
                         .bucket(BUCKET_NAME)
                         .key(objectKey)
-                        .build();
+                        .build(), AsyncRequestBody.fromFile(filePath));
+        futurePut.join();
 
-        v3Client.putObject(putObjectRequest,
-                RequestBody
-                        .fromFile(filePath));
+        v3AsyncClient.close();
     }
 
     public static void main(String[] args) {
@@ -88,9 +80,11 @@ public class App {
                     "Usage: java App <OBJECT_KEY> <FILE_PATH>");
             return;
         }
+
         String OBJECT_KEY = args[0];
         Path FILE_PATH = Paths.get(args[1]);
-        uploadUsingPublicKeyEncryption(
-                OBJECT_KEY, FILE_PATH);
+
+        uploadAsyncUsingPublicKey(OBJECT_KEY, FILE_PATH);
     }
+
 }

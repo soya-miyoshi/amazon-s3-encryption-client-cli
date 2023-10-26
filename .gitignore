@@ -2,3 +2,4 @@ target/*
 *.pem
 *.txt
 .env
+.vscode/launch.json

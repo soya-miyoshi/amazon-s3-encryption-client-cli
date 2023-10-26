@@ -7,7 +7,7 @@
         {
             "type": "java",
             "name": "App",
-            "args": ["hello.txt", "hello.txt"],
+            "args": ["s3-object-key", "file-name-to-upload"],
             "request": "launch",
             "mainClass": "com.github.soyamiyoshi.App",
             "projectName": "amazon-s3-encryption-client-java-example",

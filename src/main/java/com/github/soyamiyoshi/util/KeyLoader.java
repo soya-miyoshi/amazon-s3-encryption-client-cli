@@ -17,9 +17,6 @@ import static com.github.soyamiyoshi.util.EnvLoader.getEnvOrExit;
 
 public class KeyLoader {
 
-    private static String publicKeyPath = getEnvOrExit("PUBLIC_KEY_PATH");
-    private static String privateKeyPath = getEnvOrExit("PRIVATE_KEY_PATH");
-
     private static byte[] getPemContentBytes(String path, String beginDelimiter,
             String endDelimiter) throws IOException {
         String pemContent = new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8);
@@ -33,6 +30,7 @@ public class KeyLoader {
     }
 
     public static Optional<PrivateKey> loadPemFormatPrivateKey() {
+        String privateKeyPath = getEnvOrExit("PRIVATE_KEY_PATH");
         try {
             byte[] decodedBytes = getPemContentBytes(privateKeyPath, "-----BEGIN PRIVATE KEY-----",
                     "-----END PRIVATE KEY-----");
@@ -46,6 +44,7 @@ public class KeyLoader {
     }
 
     public static Optional<PublicKey> loadPemFormatPublicKey() {
+        String publicKeyPath = getEnvOrExit("PUBLIC_KEY_PATH");
         try {
             byte[] decodedBytes = getPemContentBytes(publicKeyPath, "-----BEGIN PUBLIC KEY-----",
                     "-----END PUBLIC KEY-----");

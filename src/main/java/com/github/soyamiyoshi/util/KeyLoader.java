@@ -12,7 +12,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
-
+import java.util.Optional;
 import static com.github.soyamiyoshi.util.EnvLoader.getEnvOrExit;
 
 public class KeyLoader {
@@ -32,21 +32,29 @@ public class KeyLoader {
         return Base64.getDecoder().decode(pemData);
     }
 
-    public static PublicKey loadPemFormatPublicKey()
-            throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-        byte[] decodedBytes = getPemContentBytes(publicKeyPath, "-----BEGIN PUBLIC KEY-----",
-                "-----END PUBLIC KEY-----");
-        X509EncodedKeySpec spec = new X509EncodedKeySpec(decodedBytes);
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        return keyFactory.generatePublic(spec);
+    public static Optional<PrivateKey> loadPemFormatPrivateKey() {
+        try {
+            byte[] decodedBytes = getPemContentBytes(privateKeyPath, "-----BEGIN PRIVATE KEY-----",
+                    "-----END PRIVATE KEY-----");
+            PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(decodedBytes);
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            return Optional.of(keyFactory.generatePrivate(spec));
+        } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+            System.err.println("Error loading private key: " + e.getMessage());
+            return Optional.empty();
+        }
     }
 
-    public static PrivateKey loadPemFormatPrivateKey()
-            throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-        byte[] decodedBytes = getPemContentBytes(privateKeyPath, "-----BEGIN PRIVATE KEY-----",
-                "-----END PRIVATE KEY-----");
-        PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(decodedBytes);
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        return keyFactory.generatePrivate(spec);
+    public static Optional<PublicKey> loadPemFormatPublicKey() {
+        try {
+            byte[] decodedBytes = getPemContentBytes(publicKeyPath, "-----BEGIN PUBLIC KEY-----",
+                    "-----END PUBLIC KEY-----");
+            X509EncodedKeySpec spec = new X509EncodedKeySpec(decodedBytes);
+            KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+            return Optional.of(keyFactory.generatePublic(spec));
+        } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+            System.err.println("Error loading public key: " + e.getMessage());
+            return Optional.empty();
+        }
     }
 }

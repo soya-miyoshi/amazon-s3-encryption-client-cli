@@ -19,7 +19,7 @@ public class PublicKeyAsyncUploadClient extends UploadClient {
     public void upload(
             final String bucketName,
             final String objectKey,
-            final Path filePath) {
+            final Path localFilePath) {
 
         S3AsyncClient v3AsyncClient = S3AsyncEncryptionClient.builder()
                 .rsaKeyPair(new PartialRsaKeyPair(null, publicKey))
@@ -28,7 +28,7 @@ public class PublicKeyAsyncUploadClient extends UploadClient {
                 v3AsyncClient.putObject(builder -> builder
                         .bucket(bucketName)
                         .key(objectKey)
-                        .build(), AsyncRequestBody.fromFile(filePath));
+                        .build(), AsyncRequestBody.fromFile(localFilePath));
         futurePut.join();
         v3AsyncClient.close();
     }

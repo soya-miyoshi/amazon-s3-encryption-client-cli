@@ -1,37 +1,20 @@
 package com.github.soyamiyoshi;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.PublicKey;
-import java.util.Optional;
-import com.github.soyamiyoshi.uploadclient.PublicKeyAsyncUploadClient;
 import static com.github.soyamiyoshi.util.EnvLoader.getEnvOrExit;
-import static com.github.soyamiyoshi.util.KeyLoader.loadPemFormatPublicKey;
+import java.nio.file.Path;
+import com.github.soyamiyoshi.act.Act;
+import com.github.soyamiyoshi.cli.ArgsParser;
+import com.github.soyamiyoshi.cli.CommandLineArgs;
 
 public class App {
 
     public static void main(String[] args) {
-        if (args.length < 2) {
-            System.out.println(
-                    "Usage: java App <OBJECT_KEY> <UPLOAD_FILE_PATH>");
-            return;
+        CommandLineArgs cliArgs = ArgsParser.parse(args);
+
+        if (cliArgs.isUpload()) {
+            Act.uploadAsync(getEnvOrExit("BUCKET_NAME"), cliArgs.getObjectKey(),
+                    Path.of(cliArgs.getLocalFilePath()));
         }
 
-        String bucketName = getEnvOrExit("BUCKET_NAME");
-        String objectKey = args[0];
-        Path uploadFilePath = Paths.get(args[1]);
-
-        Optional<PublicKey> publicKey = loadPemFormatPublicKey();
-        if (publicKey.isEmpty()) {
-            System.err.println("Error loading public key");
-            System.exit(1);
-            return;
-        }
-
-        PublicKeyAsyncUploadClient publicKeyAsyncUploadClient =
-                new PublicKeyAsyncUploadClient(publicKey.get());
-
-        publicKeyAsyncUploadClient.upload(bucketName, objectKey, uploadFilePath);
     }
-
 }

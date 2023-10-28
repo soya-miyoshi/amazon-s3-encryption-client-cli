@@ -7,6 +7,7 @@
     "settings": {
         "java.format.settings.url": ".vscode/java-formatter.xml",
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "redhat.java"
+        "editor.defaultFormatter": "redhat.java",
+        "java.configuration.updateBuildConfiguration": "interactive"
     }
 }

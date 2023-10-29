@@ -12,12 +12,19 @@ public class App {
         CommandLineArgs cliArgs = ArgsParser.parse(args);
 
         if (cliArgs.isUpload()) {
+            // output as a log
+            System.out.println("Uploading " + cliArgs.getLocalFilePath() + " to "
+                    + cliArgs.getObjectKey() + "...");
             uploadAsync(getEnvOrExit("BUCKET_NAME"), cliArgs.getObjectKey(),
                     Path.of(cliArgs.getLocalFilePath()));
+            // output as a log
+            System.out.println("Upload completed.");
         }
         if (cliArgs.isDownload()) {
+            // output as a log
+            System.out.println("Downloading " + cliArgs.getObjectKey() + "...");
             downloadAsync(getEnvOrExit("BUCKET_NAME"), cliArgs.getObjectKey());
-            System.exit(1);
+            System.out.println("Download completed.");
         }
 
         return;

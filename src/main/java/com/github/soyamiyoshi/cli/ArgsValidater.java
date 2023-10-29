@@ -3,8 +3,9 @@ package com.github.soyamiyoshi.cli;
 public class ArgsValidater {
     public static void validate(CommandLineArgs cliArgs) throws IllegalArgumentException {
         if (cliArgs.isUpload() && cliArgs.isDownload()) {
-            throw new IllegalArgumentException(
-                    "Cannot specify both upload and download options.");
+            // warn that both upload and download are specified
+            System.out.println(
+                    "Both upload and download are specified. So will do both.");
         }
 
         if (!cliArgs.isUpload() && !cliArgs.isDownload()) {

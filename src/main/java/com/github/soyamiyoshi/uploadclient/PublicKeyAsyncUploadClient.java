@@ -4,7 +4,6 @@ import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.security.PublicKey;
 import java.util.concurrent.CompletableFuture;
-import com.beust.ah.A;
 import software.amazon.awssdk.core.async.AsyncRequestBody;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;

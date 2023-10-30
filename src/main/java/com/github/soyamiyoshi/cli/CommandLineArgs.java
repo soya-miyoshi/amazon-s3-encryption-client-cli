@@ -19,6 +19,9 @@ public class CommandLineArgs {
     @Parameter(names = {"-d", "--download"}, description = "Download action")
     private boolean isDownload;
 
+    @Parameter(names = {"--heavy"}, description = "Download more than 64MB data")
+    private boolean isDownloadMorethan64MBdata;
+
     @Parameter(names = {"-h", "--help"}, description = "Display help/usage.", help = true)
     private boolean help;
 }

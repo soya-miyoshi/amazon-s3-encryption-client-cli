@@ -2,6 +2,7 @@ package com.github.soyamiyoshi;
 
 import java.nio.file.Path;
 import com.github.soyamiyoshi.client.download.BlockingDownloader;
+import com.github.soyamiyoshi.client.download.DelayedAuthenticationDownloader;
 import com.github.soyamiyoshi.client.upload.BlockingUploader;
 
 public class Act {
@@ -23,5 +24,13 @@ public class Act {
         }
     }
 
-    public static void blockingDownloadMorethan64MBdata() {}
+    public static void blockingDownloadMorethan64MBdata(final String bucketName,
+            final String objectKey) {
+        try (final DelayedAuthenticationDownloader blockDownloadClient =
+                new DelayedAuthenticationDownloader()) {
+            blockDownloadClient.download(bucketName, objectKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

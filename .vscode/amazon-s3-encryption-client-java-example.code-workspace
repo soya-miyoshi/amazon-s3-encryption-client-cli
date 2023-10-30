@@ -8,6 +8,9 @@
         "java.format.settings.url": ".vscode/java-formatter.xml",
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "redhat.java",
-        "java.configuration.updateBuildConfiguration": "interactive"
+        "java.configuration.updateBuildConfiguration": "interactive",
+        "java.test.config": {
+            "envFile": "${workspaceFolder}/.env"
+        },
     }
 }

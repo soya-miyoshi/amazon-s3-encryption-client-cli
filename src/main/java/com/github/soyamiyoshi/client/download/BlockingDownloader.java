@@ -1,6 +1,5 @@
 package com.github.soyamiyoshi.client.download;
 
-import java.security.PrivateKey;
 import java.util.concurrent.CompletableFuture;
 import static com.github.soyamiyoshi.util.ObjectSaver.saveToFile;
 import software.amazon.awssdk.core.ResponseBytes;
@@ -10,10 +9,17 @@ import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.encryption.s3.S3AsyncEncryptionClient;
 import software.amazon.encryption.s3.materials.PartialRsaKeyPair;
 
-public class PrivateKeyAsyncDownloadClient extends DownloadClient {
+public class BlockingDownloader extends PrivKeyBasedClient {
 
-    public PrivateKeyAsyncDownloadClient(PrivateKey privateKey) {
-        super(privateKey);
+    public BlockingDownloader() {
+        super();
+    }
+
+    @Override
+    protected S3AsyncClient createS3AsyncClient() {
+        return S3AsyncEncryptionClient.builder()
+                .rsaKeyPair(new PartialRsaKeyPair(this.mPrivateKey, null))
+                .build();
     }
 
     @Override
@@ -21,12 +27,8 @@ public class PrivateKeyAsyncDownloadClient extends DownloadClient {
             final String bucketName,
             final String objectKey) {
 
-        S3AsyncClient v3AsyncClient = S3AsyncEncryptionClient.builder()
-                .rsaKeyPair(new PartialRsaKeyPair(privateKey, null))
-                .build();
-
         CompletableFuture<ResponseBytes<GetObjectResponse>> futureGet =
-                v3AsyncClient.getObject(builder -> builder
+                mV3AsyncClient.getObject(builder -> builder
                         .bucket(bucketName)
                         .key(objectKey)
                         .build(), AsyncResponseTransformer.toBytes());
@@ -34,9 +36,6 @@ public class PrivateKeyAsyncDownloadClient extends DownloadClient {
         ResponseBytes<GetObjectResponse> getResponse = futureGet.join();
 
         saveToFile(getResponse.asInputStream(), objectKey);
-
-        v3AsyncClient.close();
-
     }
 
 }

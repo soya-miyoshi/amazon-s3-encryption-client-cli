@@ -1,9 +1,7 @@
 package com.github.soyamiyoshi;
 
 import static com.github.soyamiyoshi.util.KeyLoader.loadPemFormatPublicKey;
-import static com.github.soyamiyoshi.util.KeyLoader.loadPemFormatPrivateKey;
 import java.nio.file.Path;
-import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Optional;
 import com.github.soyamiyoshi.client.download.BlockingDownloader;
@@ -26,15 +24,12 @@ public class Act {
     }
 
     public static void blockingDownload(final String bucketName, final String objectKey) {
-        Optional<PrivateKey> privateKey = loadPemFormatPrivateKey();
-        if (privateKey.isEmpty()) {
-            System.err.println("Error loading private key");
-            System.exit(1);
-            return;
+        try (final BlockingDownloader blockDownloadClient = new BlockingDownloader()) {
+            blockDownloadClient.download(bucketName, objectKey);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        BlockingDownloader blockDownloadClient =
-                new BlockingDownloader(privateKey.get());
-
-        blockDownloadClient.download(bucketName, objectKey);
     }
+
+    public static void blockingDownloadMorethan64MBdata() {}
 }

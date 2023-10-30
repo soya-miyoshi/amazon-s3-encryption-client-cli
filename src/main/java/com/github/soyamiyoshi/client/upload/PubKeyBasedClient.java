@@ -3,10 +3,10 @@ package com.github.soyamiyoshi.client.upload;
 import java.nio.file.Path;
 import java.security.PublicKey;
 
-public abstract class UploadClient {
+public abstract class PubKeyBasedClient {
     protected PublicKey publicKey;
 
-    protected UploadClient(final PublicKey publicKey) {
+    protected PubKeyBasedClient(final PublicKey publicKey) {
         if (publicKey == null) {
             throw new IllegalArgumentException("PublicKey cannot be null");
         }

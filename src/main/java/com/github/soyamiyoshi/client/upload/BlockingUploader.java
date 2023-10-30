@@ -10,9 +10,9 @@ import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import software.amazon.encryption.s3.S3AsyncEncryptionClient;
 import software.amazon.encryption.s3.materials.PartialRsaKeyPair;
 
-public class PublicKeyAsyncUploadClient extends UploadClient {
+public class BlockingUploader extends PubKeyBasedClient {
 
-    public PublicKeyAsyncUploadClient(PublicKey publicKey) {
+    public BlockingUploader(PublicKey publicKey) {
         super(publicKey);
     }
 

@@ -1,5 +1,6 @@
 package com.github.soyamiyoshi.client.download;
 
+import java.security.PrivateKey;
 import java.util.concurrent.CompletableFuture;
 import static com.github.soyamiyoshi.util.ObjectSaver.saveToFile;
 import software.amazon.awssdk.core.ResponseBytes;
@@ -10,15 +11,11 @@ import software.amazon.encryption.s3.S3AsyncEncryptionClient;
 import software.amazon.encryption.s3.materials.PartialRsaKeyPair;
 
 public class BlockingDownloader extends PrivKeyBasedClient {
-
-    public BlockingDownloader() {
-        super();
-    }
-
+    // Invoked by the KeyBasedClient constructor to initialize mV3AsyncClient.
     @Override
     protected S3AsyncClient createS3AsyncClient() {
         return S3AsyncEncryptionClient.builder()
-                .rsaKeyPair(new PartialRsaKeyPair(this.mPrivateKey, null))
+                .rsaKeyPair(new PartialRsaKeyPair((PrivateKey) this.mKey, null))
                 .build();
     }
 
@@ -37,5 +34,4 @@ public class BlockingDownloader extends PrivKeyBasedClient {
 
         saveToFile(getResponse.asInputStream(), objectKey);
     }
-
 }

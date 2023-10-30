@@ -11,9 +11,12 @@ import software.amazon.encryption.s3.S3AsyncEncryptionClient;
 import software.amazon.encryption.s3.materials.PartialRsaKeyPair;
 
 public class BlockingUploader extends PubKeyBasedClient {
-
-    public BlockingUploader(PublicKey publicKey) {
-        super(publicKey);
+    // Invoked by the KeyBasedClient constructor to initialize mV3AsyncClient.
+    @Override
+    protected S3AsyncClient createS3AsyncClient() {
+        return S3AsyncEncryptionClient.builder()
+                .rsaKeyPair(new PartialRsaKeyPair(null, (PublicKey) this.mKey))
+                .build();
     }
 
     @Override
@@ -21,11 +24,6 @@ public class BlockingUploader extends PubKeyBasedClient {
             final String bucketName,
             final String objectKey,
             final Path localFilePath) {
-
-        S3AsyncClient v3AsyncClient = S3AsyncEncryptionClient.builder()
-                .rsaKeyPair(new PartialRsaKeyPair(null, publicKey))
-                .build();
-
         AsyncRequestBody asyncRequestBody = null;
 
         try {
@@ -35,11 +33,10 @@ public class BlockingUploader extends PubKeyBasedClient {
             System.exit(1);
         }
         CompletableFuture<PutObjectResponse> futurePut =
-                v3AsyncClient.putObject(builder -> builder
+                this.mV3AsyncClient.putObject(builder -> builder
                         .bucket(bucketName)
                         .key(objectKey)
                         .build(), asyncRequestBody);
         futurePut.join();
-        v3AsyncClient.close();
     }
 }

@@ -35,6 +35,8 @@ public class PrivateKeyAsyncDownloadClient extends DownloadClient {
 
         saveToFile(getResponse.asInputStream(), objectKey);
 
+        v3AsyncClient.close();
+
     }
 
 }

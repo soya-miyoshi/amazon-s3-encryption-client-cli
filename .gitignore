@@ -9,3 +9,4 @@ target/*
 .env
 .vscode/launch.json
 *.png
+.env.test

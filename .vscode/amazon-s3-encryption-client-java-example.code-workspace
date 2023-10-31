@@ -10,7 +10,7 @@
         "editor.defaultFormatter": "redhat.java",
         "java.configuration.updateBuildConfiguration": "interactive",
         "java.test.config": {
-            "envFile": "${workspaceFolder}/.env"
+            "envFile": "${workspaceFolder}/.env.test"
         },
     }
 }

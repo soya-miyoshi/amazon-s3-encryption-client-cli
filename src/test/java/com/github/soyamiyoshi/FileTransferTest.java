@@ -18,15 +18,9 @@ public class FileTransferTest {
 
     @BeforeAll
     static void setUp() {
-        TEST_BUCKET_NAME = getEnvOrExit("TEST_BUCKET_NAME");
-        TEST_OBJECT_KEY = getEnvOrExit("TEST_OBJECT_KEY");
-        TEST_LOCAL_FILE_PATH = Paths.get(getEnvOrExit("TEST_LOCAL_FILE_PATH"));
-    }
-
-    // Write test that always passes
-    @Test
-    public void testAlwaysPasses() {
-        assert true;
+        TEST_BUCKET_NAME = getEnvOrExit("BUCKET_NAME");
+        TEST_OBJECT_KEY = getEnvOrExit("OBJECT_KEY");
+        TEST_LOCAL_FILE_PATH = Paths.get(getEnvOrExit("LOCAL_FILE_PATH"));
     }
 
     @Test

@@ -1,25 +1,24 @@
 package com.github.soyamiyoshi.client;
 
-import java.security.Key;
+import com.github.soyamiyoshi.util.keyprovider.IKeyProvider;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 
-public abstract class KeyBasedClient implements AutoCloseable {
-    protected Key mKey;
+public abstract class AKeyBasedClient implements AutoCloseable {
     protected S3AsyncClient mV3AsyncClient;
+    protected IKeyProvider mKeyProvider;
 
-    protected KeyBasedClient() {
-        // Ensure the subclass provides the key
-        // Initialize the key before creating the v3AsyncClient
-        this.mKey = this.setKey();
+    protected AKeyBasedClient(final IKeyProvider keyProvider) {
 
-        // Ensure the subclass provides the v3AsyncClient
+        if (keyProvider == null) {
+            throw new IllegalArgumentException("keyProvider must not be null");
+        }
+        this.mKeyProvider = keyProvider;
+
         this.mV3AsyncClient = this.createS3AsyncClient();
         if (this.mV3AsyncClient == null) {
             throw new IllegalStateException("v3AsyncClient must not be null");
         }
     }
-
-    protected abstract Key setKey();
 
     protected abstract S3AsyncClient createS3AsyncClient();
 

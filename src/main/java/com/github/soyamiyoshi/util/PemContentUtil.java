@@ -15,9 +15,9 @@ import java.util.Base64;
 import java.util.Optional;
 import static com.github.soyamiyoshi.util.EnvLoader.getEnvOrExit;
 
-public class KeyLoader {
+public class PemContentUtil {
 
-    private static byte[] getPemContentBytes(String path, String beginDelimiter,
+    public static byte[] getPemContentBytes(String path, String beginDelimiter,
             String endDelimiter) throws IOException {
         String pemContent = new String(Files.readAllBytes(Paths.get(path)), StandardCharsets.UTF_8);
 

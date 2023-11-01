@@ -2,18 +2,17 @@ package com.github.soyamiyoshi.client.upload;
 
 import java.io.UncheckedIOException;
 import java.nio.file.Path;
-import java.security.PublicKey;
 import java.util.concurrent.CompletableFuture;
-import com.github.soyamiyoshi.util.keyprovider.IKeyProvider;
+import com.github.soyamiyoshi.util.keyprovider.CPublicKeyProvider;
 import software.amazon.awssdk.core.async.AsyncRequestBody;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import software.amazon.encryption.s3.S3AsyncEncryptionClient;
 import software.amazon.encryption.s3.materials.PartialRsaKeyPair;
 
-public class BlockingUploader extends APubKeyBasedClient {
+public class CBlockingUploader extends APubKeyBasedClient {
 
-    public BlockingUploader(IKeyProvider keyProvider) {
+    public CBlockingUploader(CPublicKeyProvider keyProvider) {
         super(keyProvider);
     }
 
@@ -21,7 +20,7 @@ public class BlockingUploader extends APubKeyBasedClient {
     @Override
     protected S3AsyncClient createS3AsyncClient() {
         return S3AsyncEncryptionClient.builder()
-                .rsaKeyPair(new PartialRsaKeyPair(null, (PublicKey) this.mKeyProvider.getKey()))
+                .rsaKeyPair(new PartialRsaKeyPair(null, mPublicKeyProvider.getKey()))
                 .build();
     }
 

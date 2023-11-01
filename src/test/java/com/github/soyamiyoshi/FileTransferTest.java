@@ -3,10 +3,12 @@ package com.github.soyamiyoshi;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import com.github.soyamiyoshi.client.download.CDelayedAuthenticationDownloader;
-import com.github.soyamiyoshi.client.upload.BlockingUploader;
-import com.github.soyamiyoshi.util.keyprovider.IKeyProvider;
+import com.github.soyamiyoshi.client.upload.CBlockingUploader;
+import com.github.soyamiyoshi.util.keyprovider.CPrivateKeyProvider;
+import com.github.soyamiyoshi.util.keyprovider.CPublicKeyProvider;
 import static com.github.soyamiyoshi.testutils.EnvLoader.getEnvOrExit;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -37,22 +39,34 @@ public class FileTransferTest {
         }
     }
 
-    class CMockPublicKeyProvider implements IKeyProvider {
+    class CMockPublicKeyProvider extends CPublicKeyProvider {
+        public CMockPublicKeyProvider() {
+            super(null);
+        }
+
+        @Override
         public PublicKey getKey() {
-            return keyPair.getPublic();
+            return FileTransferTest.keyPair.getPublic();
         }
     }
 
-    class CMockPrivateKeyProvider implements IKeyProvider {
+    class CMockPrivateKeyProvider extends CPrivateKeyProvider {
+
+        public CMockPrivateKeyProvider() {
+            super(null);
+        }
+
+        @Override
         public PrivateKey getKey() {
-            return keyPair.getPrivate();
+            return FileTransferTest.keyPair.getPrivate();
         }
     }
 
     @Test
     public void testFileTransfer() throws Exception {
         // Initialize the clients
-        try (BlockingUploader uploader = new BlockingUploader(new CMockPublicKeyProvider())) {
+        try (CBlockingUploader uploader =
+                new CBlockingUploader((CPublicKeyProvider) new CMockPublicKeyProvider())) {
             uploader.upload(TEST_BUCKET_NAME, TEST_OBJECT_KEY, TEST_LOCAL_FILE_PATH);
         } catch (Exception e) {
             e.printStackTrace();

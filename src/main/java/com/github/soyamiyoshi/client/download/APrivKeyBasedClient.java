@@ -1,13 +1,19 @@
 package com.github.soyamiyoshi.client.download;
 
-import com.github.soyamiyoshi.client.AKeyBasedClient;
-import com.github.soyamiyoshi.util.keyprovider.IKeyProvider;
+import com.github.soyamiyoshi.client.AAutoClosableClient;
+import com.github.soyamiyoshi.util.keyprovider.CPrivateKeyProvider;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 
-public abstract class APrivKeyBasedClient extends AKeyBasedClient {
+public abstract class APrivKeyBasedClient extends AAutoClosableClient {
 
-    protected APrivKeyBasedClient(IKeyProvider keyProvider) {
-        super(keyProvider);
+    protected CPrivateKeyProvider mPrivateKeyProvider;
+
+    protected APrivKeyBasedClient(final CPrivateKeyProvider keyProvider) {
+        if (keyProvider == null) {
+            throw new IllegalArgumentException("keyProvider must not be null");
+        }
+        this.mPrivateKeyProvider = keyProvider;
+        super.setV3AsyncClient();
     }
 
     protected abstract S3AsyncClient createS3AsyncClient();

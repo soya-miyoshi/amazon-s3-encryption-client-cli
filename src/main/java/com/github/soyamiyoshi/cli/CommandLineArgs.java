@@ -7,10 +7,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommandLineArgs {
-    @Parameter(names = {"-o", "--object_key"}, description = "Object key")
+    @Parameter(names = {"-o", "--object-key"}, description = "Object key")
     private String objectKey;
 
-    @Parameter(names = {"-l", "--local_file_path"}, description = "Local file path")
+    @Parameter(names = {"-l", "--local-file-path"}, description = "Local file path")
     private String localFilePath;
 
     @Parameter(names = {"-u", "--upload"}, description = "Upload action")
@@ -24,4 +24,13 @@ public class CommandLineArgs {
 
     @Parameter(names = {"-h", "--help"}, description = "Display help/usage.", help = true)
     private boolean help;
+
+    @Parameter(names = {"-p", "--public-key-path"}, description = "Path to public key")
+    private String publicKeyPath;
+
+    @Parameter(names = {"-k", "--private-key-path"}, description = "Path to private key")
+    private String privateKeyPath;
+
+    @Parameter(names = {"-b", "--bucket-name"}, description = "Bucket name")
+    private String bucketName;
 }

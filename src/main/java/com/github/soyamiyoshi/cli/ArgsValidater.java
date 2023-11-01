@@ -16,5 +16,19 @@ public class ArgsValidater {
                 || cliArgs.getLocalFilePath().isEmpty())) {
             throw new IllegalArgumentException("Local file path must be specified for upload.");
         }
+
+        if (cliArgs.isUpload() && cliArgs.getPublicKeyPath() == null) {
+            throw new IllegalArgumentException(
+                    "Public key path must be specified for upload.");
+        }
+
+        if (cliArgs.isDownload() && cliArgs.getPrivateKeyPath() == null) {
+            throw new IllegalArgumentException(
+                    "Private key path must be specified for download.");
+        }
+
+        if (cliArgs.getBucketName() == null) {
+            throw new IllegalArgumentException("Bucket name must be specified.");
+        }
     }
 }

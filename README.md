@@ -19,7 +19,7 @@ $ mvn exec:java -DskipTests -Dexec.args="-h"
 Example (upload):  
 ```bash
 $ export $(cat .env.test | xargs -L 1) && \
-  mvn exec:java -DskipTests -Dexec.args="--upload --object_key hello.txt --local_file_path ./hello.txt"
+  mvn exec:java -DskipTests -Dexec.args="--upload --object-key hello.txt --local-file-path ./hello.txt"
 ```
 
 Run tests:   

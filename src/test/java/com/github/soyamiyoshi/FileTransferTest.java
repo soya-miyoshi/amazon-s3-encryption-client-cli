@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import com.github.soyamiyoshi.client.download.CDelayedAuthenticationDownloader;
 import com.github.soyamiyoshi.client.upload.BlockingUploader;
 import com.github.soyamiyoshi.util.keyprovider.IKeyProvider;
-import static com.github.soyamiyoshi.util.EnvLoader.getEnvOrExit;
+import static com.github.soyamiyoshi.testutils.EnvLoader.getEnvOrExit;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import java.nio.file.Files;
 import java.nio.file.Path;

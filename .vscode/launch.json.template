@@ -11,7 +11,6 @@
             "request": "launch",
             "mainClass": "com.github.soyamiyoshi.App",
             "projectName": "amazon-s3-encryption-client-java-example",
-            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

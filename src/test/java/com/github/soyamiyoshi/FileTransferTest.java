@@ -8,7 +8,6 @@ import com.github.soyamiyoshi.util.keyprovider.CPrivateKeyProvider;
 import com.github.soyamiyoshi.util.keyprovider.CPublicKeyProvider;
 import static com.github.soyamiyoshi.testutils.EnvLoader.getEnvOrExit;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

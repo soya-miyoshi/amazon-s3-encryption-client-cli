@@ -6,10 +6,6 @@ This is an example application that utilizes the [amazon-s3-encryption-client-ja
 - Java 8 or later
 
 ## INSTALLATION AND EXECUTION
-1. Duplicate the .env.template and .env.test.template files.  
-2. Rename the duplicates to .env and .env.test respectively.  
-3. In both .env files, specify the name of the S3 bucket where you want to upload to or download from.  
-
 Print usage:  
 ```bash
 $ mvn install 
@@ -19,10 +15,18 @@ $ mvn exec:java -DskipTests -Dexec.args="-h"
 Example (upload):  
 ```bash
 $ export $(cat .env.test | xargs -L 1) && \
-  mvn exec:java -DskipTests -Dexec.args="--upload --object-key hello.txt --local-file-path ./hello.txt"
+  mvn exec:java -DskipTests \  
+  -Dexec.args="--upload \  
+  --bucket-name your-s3-bucket-name \  
+  --object-key hello.txt \  
+  --local-file-path ./hello.txt  \  
+  -p ./public_key.pem -k ./private_key.pem"
 ```
 
-Run tests:   
+To run tests,  
+1. Duplicate the .env.test.template files.  
+2. Rename the duplicates to .env.test respectively.  
+3. Populate the values.  
 ```bash
 $ export $(cat .env.test | xargs -L 1) && mvn test
 ```

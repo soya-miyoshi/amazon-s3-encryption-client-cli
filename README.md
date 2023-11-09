@@ -6,22 +6,25 @@ This is an example application that utilizes the [amazon-s3-encryption-client-ja
 - Java 8 or later
 
 ## INSTALLATION AND EXECUTION
-Print usage:  
+You can download the JAR file from the Releases section and run it directly. For instructions on how to use the JAR file, please refer to the release notes.  
+
+If you have downloaded the source code and want to run,  
+to print the usage:  
 ```bash
 $ mvn install 
 $ mvn exec:java -DskipTests -Dexec.args="-h"
 ```
 
-Example (upload):  
+To upload:  
 ```bash
-$ export $(cat .env.test | xargs -L 1) && \
-  mvn exec:java -DskipTests \  
+$ mvn exec:java -DskipTests \  
   -Dexec.args="--upload \  
   --bucket-name your-s3-bucket-name \  
   --object-key hello.txt \  
   --local-file-path ./hello.txt  \  
   -p ./public_key.pem -k ./private_key.pem"
 ```
+Note: Private key is not necessary for upload, and public key is not necessary for download.  
 
 To run tests,  
 1. Duplicate the .env.test.template files.  

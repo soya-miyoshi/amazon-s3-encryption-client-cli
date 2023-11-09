@@ -4,7 +4,7 @@
   <groupId>com.github.soyamiyoshi</groupId>
   <artifactId>amazon-s3-encryption-client-java-example</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.0</version>
+  <version>1.0.0-alpha</version>
   <name>amazon-s3-encryption-client-java-example</name>
   <url>http://maven.apache.org</url>
   <build>
@@ -30,6 +30,7 @@
                 <descriptorRefs>
                     <descriptorRef>jar-with-dependencies</descriptorRef>
                 </descriptorRefs>
+                <appendAssemblyId>false</appendAssemblyId>
             </configuration>
             <executions>
                 <execution>

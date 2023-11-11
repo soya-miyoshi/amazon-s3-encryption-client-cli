@@ -1,9 +1,18 @@
 ## WHAT
-This is an example application that utilizes the [amazon-s3-encryption-client-java](https://github.com/aws/amazon-s3-encryption-client-java).  
+This is a CLI tool that wraps 
+[amazon-s3-encryption-client-java](https://github.com/aws/amazon-s3-encryption-client-java).  
+With this CLI, you can use your local public/private keys for client-side encryption to put/get objects to/from your Amazon S3 bucket.  
 
 ## PREREQUISITES
 - mvn 
 - Java 8 or later
+- RSA Public key and Private Key in PEM format
+
+You can generate an RSA key pair using `openssl` with the following commands:
+```
+$ openssl genpkey -algorithm RSA -out private_key.pem
+$ openssl rsa -pubout -in private_key.pem -out public_key.pem
+```
 
 ## INSTALLATION AND EXECUTION
 You can download the JAR file from the Releases section and run it directly. For instructions on how to use the JAR file, please refer to the release notes.  
@@ -24,7 +33,7 @@ $ mvn exec:java -DskipTests \
   --local-file-path ./hello.txt  \  
   -p ./public_key.pem -k ./private_key.pem"
 ```
-Note: Private key is not necessary for upload, and public key is not necessary for download.  
+Note: Private key is not necessary for upload, and Public key is not necessary for download.  
 
 To run tests,  
 1. Duplicate the .env.test.template files.  

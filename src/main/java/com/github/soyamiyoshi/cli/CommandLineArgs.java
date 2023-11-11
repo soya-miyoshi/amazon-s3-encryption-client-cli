@@ -13,6 +13,9 @@ public class CommandLineArgs {
     @Parameter(names = {"-l", "--local-file-path"}, description = "Local file path")
     private String localFilePath;
 
+    @Parameter(names = {"-m", "--kms-key-id"}, description = "KMS key ID")
+    private String kmsKeyId;
+
     @Parameter(names = {"-u", "--upload"}, description = "Upload action")
     private boolean isUpload;
 

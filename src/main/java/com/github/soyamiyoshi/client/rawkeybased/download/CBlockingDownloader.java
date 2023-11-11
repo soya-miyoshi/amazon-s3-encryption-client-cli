@@ -1,9 +1,8 @@
 package com.github.soyamiyoshi.client.rawkeybased.download;
 
+import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 import com.github.soyamiyoshi.util.keyprovider.CPrivateKeyProvider;
-import static com.github.soyamiyoshi.util.ObjectSaver.saveToFile;
-import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.async.AsyncResponseTransformer;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
@@ -29,14 +28,14 @@ public class CBlockingDownloader extends APrivKeyBasedClient {
             final String bucketName,
             final String objectKey) {
 
-        CompletableFuture<ResponseBytes<GetObjectResponse>> futureGet =
+        CompletableFuture<GetObjectResponse> futureGet =
                 mV3AsyncClient.getObject(builder -> builder
                         .bucket(bucketName)
                         .key(objectKey)
-                        .build(), AsyncResponseTransformer.toBytes());
+                        .build(), AsyncResponseTransformer.toFile(Path.of(objectKey)));
 
-        ResponseBytes<GetObjectResponse> getResponse = futureGet.join();
+        futureGet.join();
 
-        saveToFile(getResponse.asInputStream(), objectKey);
+        // saveToFile(getResponse.asInputStream(), objectKey);
     }
 }

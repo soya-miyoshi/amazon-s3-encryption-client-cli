@@ -1,4 +1,4 @@
-package com.github.soyamiyoshi.client.upload;
+package com.github.soyamiyoshi.client.rawkeybased.upload;
 
 import java.io.UncheckedIOException;
 import java.nio.file.Path;

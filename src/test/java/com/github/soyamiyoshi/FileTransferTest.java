@@ -2,8 +2,8 @@ package com.github.soyamiyoshi;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import com.github.soyamiyoshi.client.download.CDelayedAuthenticationDownloader;
-import com.github.soyamiyoshi.client.upload.CBlockingUploader;
+import com.github.soyamiyoshi.client.rawkeybased.download.CDelayedAuthenticationDownloader;
+import com.github.soyamiyoshi.client.rawkeybased.upload.CBlockingUploader;
 import com.github.soyamiyoshi.util.keyprovider.CPrivateKeyProvider;
 import com.github.soyamiyoshi.util.keyprovider.CPublicKeyProvider;
 import static com.github.soyamiyoshi.testutils.EnvLoader.getEnvOrExit;

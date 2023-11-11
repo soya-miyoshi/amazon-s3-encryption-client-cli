@@ -1,4 +1,4 @@
-package com.github.soyamiyoshi.client.download;
+package com.github.soyamiyoshi.client.rawkeybased.download;
 
 import java.util.concurrent.CompletableFuture;
 import com.github.soyamiyoshi.util.keyprovider.CPrivateKeyProvider;

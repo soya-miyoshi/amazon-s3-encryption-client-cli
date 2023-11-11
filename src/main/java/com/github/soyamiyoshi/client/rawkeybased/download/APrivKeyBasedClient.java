@@ -1,4 +1,4 @@
-package com.github.soyamiyoshi.client.download;
+package com.github.soyamiyoshi.client.rawkeybased.download;
 
 import com.github.soyamiyoshi.client.AAutoClosableClient;
 import com.github.soyamiyoshi.util.keyprovider.CPrivateKeyProvider;

@@ -1,9 +1,9 @@
 package com.github.soyamiyoshi;
 
 import java.nio.file.Path;
-import com.github.soyamiyoshi.client.download.CBlockingDownloader;
-import com.github.soyamiyoshi.client.download.CDelayedAuthenticationDownloader;
-import com.github.soyamiyoshi.client.upload.CBlockingUploader;
+import com.github.soyamiyoshi.client.rawkeybased.download.CBlockingDownloader;
+import com.github.soyamiyoshi.client.rawkeybased.download.CDelayedAuthenticationDownloader;
+import com.github.soyamiyoshi.client.rawkeybased.upload.CBlockingUploader;
 import com.github.soyamiyoshi.util.keyprovider.CPrivateKeyProvider;
 import com.github.soyamiyoshi.util.keyprovider.CPublicKeyProvider;
 

@@ -49,4 +49,15 @@ public class Act {
             e.printStackTrace();
         }
     }
+
+    public static void blockingDownloadKmsKey(final String bucketName, final String objectKey,
+            final String kmsKeyArn) {
+        try (final CKmsKeyBasedClient blockDownloadClient =
+                new CKmsKeyBasedClient(kmsKeyArn)) {
+            blockDownloadClient.blockingDownload(bucketName, objectKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

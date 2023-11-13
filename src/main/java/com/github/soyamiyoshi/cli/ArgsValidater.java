@@ -17,14 +17,16 @@ public class ArgsValidater {
             throw new IllegalArgumentException("Local file path must be specified for upload.");
         }
 
-        if (cliArgs.isUpload() && cliArgs.getPublicKeyPath() == null) {
+        if (cliArgs.isUpload() && cliArgs.getPublicKeyPath() == null
+                && cliArgs.getKmsKeyId() == null) {
             throw new IllegalArgumentException(
-                    "Public key path must be specified for upload.");
+                    "Public key path or KMS Key ID must be specified for upload.");
         }
 
-        if (cliArgs.isDownload() && cliArgs.getPrivateKeyPath() == null) {
+        if (cliArgs.isDownload() && cliArgs.getPrivateKeyPath() == null
+                && cliArgs.getKmsKeyId() == null) {
             throw new IllegalArgumentException(
-                    "Private key path must be specified for download.");
+                    "Private key path or KMS Key ID must be specified for download.");
         }
 
         if (cliArgs.getBucketName() == null) {

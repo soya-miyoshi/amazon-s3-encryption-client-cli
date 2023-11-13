@@ -1,6 +1,7 @@
 package com.github.soyamiyoshi;
 
 import java.nio.file.Path;
+import com.github.soyamiyoshi.client.kmskeybased.CKmsKeyBasedClient;
 import com.github.soyamiyoshi.client.rawkeybased.download.CBlockingDownloader;
 import com.github.soyamiyoshi.client.rawkeybased.download.CDelayedAuthenticationDownloader;
 import com.github.soyamiyoshi.client.rawkeybased.upload.CBlockingUploader;
@@ -38,4 +39,25 @@ public class Act {
             e.printStackTrace();
         }
     }
+
+    public static void blockingUploadKmsKey(final String bucketName, final String objectKey,
+            final Path uploadFilePath, final String kmsKeyArn) {
+        try (final CKmsKeyBasedClient blockUploadClient =
+                new CKmsKeyBasedClient(kmsKeyArn)) {
+            blockUploadClient.blockingUpload(bucketName, objectKey, uploadFilePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void blockingDownloadKmsKey(final String bucketName, final String objectKey,
+            final String kmsKeyArn) {
+        try (final CKmsKeyBasedClient blockDownloadClient =
+                new CKmsKeyBasedClient(kmsKeyArn)) {
+            blockDownloadClient.blockingDownload(bucketName, objectKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

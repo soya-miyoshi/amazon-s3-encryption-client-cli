@@ -2,6 +2,7 @@ package com.github.soyamiyoshi;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import com.github.soyamiyoshi.client.kmskeybased.CKmsKeyBasedClient;
 import com.github.soyamiyoshi.client.rawkeybased.download.CDelayedAuthenticationDownloader;
 import com.github.soyamiyoshi.client.rawkeybased.upload.CBlockingUploader;
 import com.github.soyamiyoshi.util.keyprovider.CPrivateKeyProvider;
@@ -79,6 +80,27 @@ public class FileTransferTest {
         } ;
 
         // Compare the contents
+        byte[] originalContent = Files.readAllBytes(TEST_LOCAL_FILE_PATH);
+        byte[] downloadedContent = Files.readAllBytes(Paths.get(TEST_OBJECT_KEY));
+
+        assertArrayEquals(originalContent, downloadedContent,
+                "The contents of the uploaded and downloaded files should be the same.");
+    }
+
+    @Test
+    public void testFileTransferKms() throws Exception {
+        try (CKmsKeyBasedClient client = new CKmsKeyBasedClient(getEnvOrExit("KMS_KEY_ID"))) {
+            client.blockingUpload(TEST_BUCKET_NAME, TEST_OBJECT_KEY, TEST_LOCAL_FILE_PATH);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } ;
+
+        try (CKmsKeyBasedClient client = new CKmsKeyBasedClient(getEnvOrExit("KMS_KEY_ID"))) {
+            client.blockingDownload(TEST_BUCKET_NAME, TEST_OBJECT_KEY);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } ;
+
         byte[] originalContent = Files.readAllBytes(TEST_LOCAL_FILE_PATH);
         byte[] downloadedContent = Files.readAllBytes(Paths.get(TEST_OBJECT_KEY));
 

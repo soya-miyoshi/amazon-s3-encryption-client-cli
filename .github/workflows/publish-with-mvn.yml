@@ -31,7 +31,7 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: amazon-s3-encryption-client-java-example
+        name: amazon-s3-encryption-cli-client-${{ github.event.release.tag_name }}.jar
         path: target/amazon-s3-encryption-cli-client-${{ github.event.release.tag_name }}.jar
 
     - name: Upload Release Asset

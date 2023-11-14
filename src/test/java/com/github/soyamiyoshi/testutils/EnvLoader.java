@@ -5,7 +5,7 @@ public class EnvLoader {
         String value = System.getenv(envVarName);
         if (value == null || value.trim().isEmpty()) {
             System.err.println("Environment variable " + envVarName + " is not set.");
-            System.exit(1);
+            assert false;
         }
         return value;
     }

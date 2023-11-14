@@ -4,7 +4,11 @@
   <groupId>com.github.soyamiyoshi</groupId>
   <artifactId>amazon-s3-encryption-client-java-example</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.0-alpha</version>
+  <properties>
+    <!-- Set a default value for the revision property -->
+    <revision>1.0.0-SNAPSHOT</revision>
+  </properties>
+  <version>${revision}</version>
   <name>amazon-s3-encryption-client-java-example</name>
   <url>http://maven.apache.org</url>
   <build>

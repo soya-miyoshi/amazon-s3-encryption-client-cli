@@ -13,6 +13,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+      issues: write  # Add this if not present
+      pull-requests: write  # Add this if not present
 
     steps:
     - uses: actions/checkout@v3
@@ -26,11 +28,11 @@ jobs:
     - name: Build with Maven
       run: mvn -B package -DskipTests -Drevision=${{ github.event.release.tag_name }} --file pom.xml
 
-    # - name: Upload Artifact
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: amazon-s3-encryption-client-java-example
-    #     path: target/amazon-s3-encryption-cli-client-${{ github.event.release.tag_name }}.jar
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: amazon-s3-encryption-client-java-example
+        path: target/amazon-s3-encryption-cli-client-${{ github.event.release.tag_name }}.jar
 
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
